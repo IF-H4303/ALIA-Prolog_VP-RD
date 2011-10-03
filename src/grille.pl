@@ -30,3 +30,22 @@ extraireColonne([_|L], NumeroColonne, Nombre, Colonne) :-
     not(NumeroColonne = Nombre),
     NouveauNombre is Nombre + 1,
     extraireColonne(L, NumeroColonne, NouveauNombre, Colonne).
+
+% Appel : extraireElement(+Grille, +CoordCol, +CoordLig, -Colonne).
+% Extrait l'element de coordonnée (CoordCol,CoordLig) et place le reŽsulat dans Colonne.
+    extraireElement(Grille, CoordCol, CoordLig, Element) :- 
+	extraireColonne(Grille, CoordCol, Colonne),
+	extraireElementCol(Colonne, CoordLig, Element).
+
+%Appel : extraireElementCol(+Colonne, +NumeroElement, -Element).
+%Extrait l'element numero NumeroElement dans la liste Colonne et place le resultat dans Element.
+extraireElementCol(Colonne, NumeroElement, Element) :- extraireElementCol(Colonne, NumeroElement, 1, Element).
+extraireElementCol(_,NumeroElement,_) :- NumeroElement < 0, fail.
+extraireElementCol(_,NumeroElement,_) :- NumeroElement = 0, fail.
+extraireElementCol(_,NumeroElement,_) :- NumeroElement > 6, fail.
+extraireElementCol([Element|_], NumeroElement, Compt, Element) :- NumeroElement = Compt.
+extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
+	not(NumeroElement = Compt),
+	NewCompt is Compt+1,
+	extraireElementCol(Tail,NumeroElement, NewCompt, Element).
+	
