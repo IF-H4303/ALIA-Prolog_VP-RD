@@ -10,7 +10,5 @@ victoireJoueurColonne(Joueur, _, [X|L]) :-
     not(Joueur = X),
     victoireJoueurColonne(Joueur, 0, L). 
 
-%extraireLigne([[X1|L1], [X2|L2], [X3|L3], [X4|L4], [X5|L5], [X6|L6]], Ligne, Resultat).
-
 victoireColonne(Grille) :- victoireJoueurColonne(x, 0, Grille).
 victoireColonne(Grille) :- victoireJoueurColonne(o, 0, Grille).
