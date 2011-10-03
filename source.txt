@@ -1,0 +1,5 @@
+Très bon tutoriel : 
+http://www.csupomona.edu/~jrfisher/www/prolog_tutorial/pt_framer.html
+
+Puissance 4 et intelligence artificielle :
+http://aispirit.tuxfamily.org/~articles/index.php?file=AI-puiss4.htm&cat=articles&rubrique=ai
