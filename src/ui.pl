@@ -1,11 +1,8 @@
-% Ensemble de clauses permettant de gérer l'interaction 
-% du joueur avec l'ordinateur de façon agréable et visuelle.
-
-% Permet d'afficher la grille de façon graphique.
+% Affiche la grille dans la console.
 afficherGrille :-
     grille(Grille),
     findall(Ligne, extraireLigne(Grille, _, Ligne), Lignes),
-    reverse(Lignes, LignesInversees),
+    reverse(Lignes, LignesInversees), % Les cases du bas sont en tête de tableau.
     afficherLignes(LignesInversees).
 
 afficherLignes([L|R]) :- write('    '), afficherLigne(L), afficherLignes(R).
@@ -14,5 +11,6 @@ afficherLignes([]).
 afficherLigne([L|R]) :- afficherSymbole(L), write(' '), afficherLigne(R).
 afficherLigne([]) :- nl.
 
-afficherSymbole(X) :- var(X), write('#').
-afficherSymbole(X) :- \+var(X),write(X).
+afficherSymbole(vide) :- write('-').
+afficherSymbole(o) :- write('o').
+afficherSymbole(x) :- write('x').
