@@ -39,7 +39,7 @@ coup(Grille, NumeroColonne) :-
 
 % Appel : coup(+Colonne).
 %
-% Une preuve existe si la Colonne contient au moins une case Ç vide È.
+% Une preuve existe si la Colonne contient au moins une case a videe.
 % Dans ce cas, un nouveau coup est possible dans cette colonne. 
 coup([X|_]) :- X == vide.
 coup([X|L]) :- X \== vide, coup(L).

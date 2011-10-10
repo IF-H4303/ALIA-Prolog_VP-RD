@@ -68,7 +68,24 @@ extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
     NewCompt is Compt+1,
     extraireElementCol(Tail,NumeroElement, NewCompt, Element).
 	
-%Definission des diagonals
+%Definition des diagonals
+%NE :  *  NO : *
+%     /         \
+%    /           \
+%
+%Diagonal de 1 a  6 en sens NE
+%Diagonal de 7 a 12 en sens NO
+%     __ __ __ __ __ __ __
+%    |__|__|__|__|__|__|__|
+%    |__|__|__|__|__|__|__|
+%    |__|__|__|__|__|__|__|
+%    |_1|__|__|__|__|__|_7|
+%    |_2|__|__|__|__|__|_8|
+%    | 3| 4| 5| 6|11|10| 9|
+%    |__|__|__|12|__|__|__| 
+%     
+%
+
 extraireDiag(Grille,NumDiag,Diag) :- 
 	between(1,6,NumDiag),
 	not(between(7,12,NumDiag)),
@@ -99,8 +116,7 @@ extraireDiagNE(Grille,CoordCol,CoordLig,Temp, Diag) :-
 	append(Temp,[Element],NewDiag),
 	NewCoordCol is CoordCol+1,
 	NewCoordLig is CoordLig+1,
-	extraireDiagNE(Grille, NewCoordCol, NewCoordLig, NewDiag, Diag),
-	append(Temp,[],Diag).
+	extraireDiagNE(Grille, NewCoordCol, NewCoordLig, NewDiag, Diag).
 extraireDiagNE(_, CoordCol,_,Diag, Diag) :-
 	not(between(1,7,CoordCol)).
 extraireDiagNE(_, _, CoordLig, Diag, Diag) :-
@@ -122,12 +138,11 @@ extraireDiagNO(Grille,CoordCol,CoordLig,Temp, Diag) :-
 	between(1,7,CoordCol),
 	between(1,6,CoordLig),
 	extraireElement(Grille,CoordCol, CoordLig, Element),
-	append(Diag,Element,NewDiag),
+	append(Temp,[Element],NewDiag),
 	NewCoordCol is CoordCol-1,
 	NewCoordLig is CoordLig+1,
-	extraireDiagNO(Grille, NewCoordCol, NewCoordLig, NewDiag,Diag),
-	append(Temp,[],Diag).
-extraireDiagNO(_,CoordCol,_,Temp,Temp) :-
+	extraireDiagNO(Grille, NewCoordCol, NewCoordLig, NewDiag,Diag).
+extraireDiagNO(_,CoordCol,_,Diag,Diag) :-
 	not(between(1,7,CoordCol)).
-extraireDiagNO(_,_,CoordLig,Temp,Temp) :-
+extraireDiagNO(_,_,CoordLig,Diag,Diag) :-
 	not(between(1,6,CoordLig)).
