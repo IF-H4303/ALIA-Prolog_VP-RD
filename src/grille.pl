@@ -86,6 +86,9 @@ extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
 %     
 %
 
+%Appel : extraireDiag(+Grille,+NumDiag,-Diag)
+%En fonction de la diagonale, appel la fonction correspondante
+%pour extraire la diagonale dans le bon sens.
 extraireDiag(Grille,NumDiag,Diag) :- 
 	between(1,6,NumDiag),
 	not(between(7,12,NumDiag)),
@@ -96,7 +99,9 @@ extraireDiag(Grille,NumDiag,Diag) :-
 	not(between(1,6,NumDiag)),
 	extraireDiagNO(Grille,NumDiag,[],Diag).
 
-
+%Appel : extraireDiagNE(+Grille,+NumDiag,+Temp,-Diag)
+%Transforme cette appel par un nouvel appel vers extraireDiagNE/5
+%afin de lui donner le point de départ de la diagonal
 extraireDiagNE(Grille, 1, Temp, Diag) :-
 	extraireDiagNE(Grille,1,3,Temp,Diag). 
 extraireDiagNE(Grille, 2, Temp, Diag) :-
@@ -109,6 +114,9 @@ extraireDiagNE(Grille, 5, Temp, Diag) :-
 	extraireDiagNE(Grille,3,1,Temp,Diag). 
 extraireDiagNE(Grille, 6, Temp, Diag) :-
 	extraireDiagNE(Grille,4,1,Temp,Diag).
+%Appel extraireDiagNE(+Grille, +CoordCol, +CoordLig, +Temp,+Diag).
+%Si les coordonees sont dans la grilles, alors extraction de l'element
+%puis recherche de l'element suivant de la diagonal et stockage dans Temp.
 extraireDiagNE(Grille,CoordCol,CoordLig,Temp, Diag) :-
 	between(1,7,CoordCol),
 	between(1,6,CoordLig),
@@ -117,6 +125,7 @@ extraireDiagNE(Grille,CoordCol,CoordLig,Temp, Diag) :-
 	NewCoordCol is CoordCol+1,
 	NewCoordLig is CoordLig+1,
 	extraireDiagNE(Grille, NewCoordCol, NewCoordLig, NewDiag, Diag).
+%Si les coordonnees ne sont pas dans la grille, alors retour de diag.
 extraireDiagNE(_, CoordCol,_,Diag, Diag) :-
 	not(between(1,7,CoordCol)).
 extraireDiagNE(_, _, CoordLig, Diag, Diag) :-
