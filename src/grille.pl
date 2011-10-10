@@ -27,20 +27,85 @@ extraireColonne([_|L], NumeroColonne, Nombre, Colonne) :-
     NouveauNombre is Nombre + 1,
     extraireColonne(L, NumeroColonne, NouveauNombre, Colonne).
 
-% Appel : extraireElement(+Grille, +CoordCol, +CoordLig, -Colonne).
-% Extrait l'element de coordonnée (CoordCol,CoordLig) et place le reŽsulat dans Colonne.
+%Appel : extraireElement(+Grille, +CoordCom, +CoordLig, -Colonne).
+%Extrait l'element de coordonnees (CoordCol, CoordLig) et place le resultat dans Colocnne.
 extraireElement(Grille, CoordCol, CoordLig, Element) :- 
-extraireColonne(Grille, CoordCol, Colonne),
-extraireElementCol(Colonne, CoordLig, Element).
+	extraireColonne(Grille, CoordCol, Colonne),
+	extraireElementCol(Colonne, CoordLig, Element).
 
 %Appel : extraireElementCol(+Colonne, +NumeroElement, -Element).
 %Extrait l'element numero NumeroElement dans la liste Colonne et place le resultat dans Element.
-extraireElementCol(Colonne, NumeroElement, Element) :- extraireElementCol(Colonne, NumeroElement, 1, Element).
-extraireElementCol(_,NumeroElement,_) :- NumeroElement < 0, fail.
-extraireElementCol(_,NumeroElement,_) :- NumeroElement = 0, fail.
-extraireElementCol(_,NumeroElement,_) :- NumeroElement > 6, fail.
-extraireElementCol([Element|_], NumeroElement, Compt, Element) :- NumeroElement = Compt.
+extraireElementCol(Colonne, NumeroElement, Element) :- 
+	between(1,6,NumeroElement),
+	extraireElementCol(Colonne, NumeroElement, 1, Element).
+extraireElementCol([Element|_], NumeroElement, Compt, Element) :- 
+	NumeroElement = Compt.
 extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
 	not(NumeroElement = Compt),
 	NewCompt is Compt+1,
 	extraireElementCol(Tail,NumeroElement, NewCompt, Element).
+	
+%Definission des diagonals
+extraireDiag(Grille,NumDiag,Diag) :- 
+	between(1,6,NumDiag),
+	not(between(7,12,NumDiag)),
+	NumDiag < 6,
+	extraireDiagNE(Grille,NumDiag,[],Diag).
+extraireDiag(Grille,NumDiag,Diag) :- 
+	between(7,12,NumDiag),
+	not(between(1,6,NumDiag)),
+	extraireDiagNO(Grille,NumDiag,[],Diag).
+
+
+extraireDiagNE(Grille, 1, Temp, Diag) :-
+	extraireDiagNE(Grille,1,3,Temp,Diag). 
+extraireDiagNE(Grille, 2, Temp, Diag) :-
+	extraireDiagNE(Grille,1,2,Temp,Diag). 
+extraireDiagNE(Grille, 3, Temp, Diag) :-
+	extraireDiagNE(Grille,1,1,Temp,Diag). 
+extraireDiagNE(Grille, 4, Temp, Diag) :-
+	extraireDiagNE(Grille,2,1,Temp,Diag). 
+extraireDiagNE(Grille, 5, Temp, Diag) :-
+	extraireDiagNE(Grille,3,1,Temp,Diag). 
+extraireDiagNE(Grille, 6, Temp, Diag) :-
+	extraireDiagNE(Grille,4,1,Temp,Diag).
+extraireDiagNE(Grille,CoordCol,CoordLig,Temp, Diag) :-
+	between(1,7,CoordCol),
+	between(1,6,CoordLig),
+	extraireElement(Grille,CoordCol, CoordLig, Element),
+	append(Temp,[Element],NewDiag),
+	NewCoordCol is CoordCol+1,
+	NewCoordLig is CoordLig+1,
+	extraireDiagNE(Grille, NewCoordCol, NewCoordLig, NewDiag, Diag),
+	append(Temp,[],Diag).
+extraireDiagNE(_, CoordCol,_,Diag, Diag) :-
+	not(between(1,7,CoordCol)).
+extraireDiagNE(_, _, CoordLig, Diag, Diag) :-
+	not(between(1,6,CoordLig)).
+
+extraireDiagNO(Grille, 7, Temp, Diag) :-
+	extraireDiagNO(Grille,7,3,Temp,Diag). 
+extraireDiagNO(Grille, 8, Temp, Diag) :-
+	extraireDiagNO(Grille,7,2,Temp,Diag). 
+extraireDiagNO(Grille, 9, Temp, Diag) :-
+	extraireDiagNO(Grille,7,1,Temp,Diag). 
+extraireDiagNO(Grille,10, Temp, Diag) :-
+	extraireDiagNO(Grille,6,1,Temp,Diag). 
+extraireDiagNO(Grille,11, Temp, Diag) :-
+	extraireDiagNO(Grille,5,1,Temp,Diag). 
+extraireDiagNO(Grille,12, Temp, Diag) :-
+	extraireDiagNO(Grille,4,1,Temp,Diag).
+extraireDiagNO(Grille,CoordCol,CoordLig,Temp, Diag) :-
+	between(1,7,CoordCol),
+	between(1,6,CoordLig),
+	extraireElement(Grille,CoordCol, CoordLig, Element),
+	append(Diag,Element,NewDiag),
+	NewCoordCol is CoordCol-1,
+	NewCoordLig is CoordLig+1,
+	extraireDiagNO(Grille, NewCoordCol, NewCoordLig, NewDiag,Diag),
+	append(Temp,[],Diag).
+extraireDiagNO(_,CoordCol,_,Temp,Temp) :-
+	not(between(1,7,CoordCol)).
+extraireDiagNO(_,_,CoordLig,Temp,Temp) :-
+	not(between(1,6,CoordLig)).
+	
