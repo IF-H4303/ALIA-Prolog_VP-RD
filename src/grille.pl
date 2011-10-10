@@ -1,15 +1,29 @@
-% Grille : 6 lignes et 7 colonnes
+% DŽfinition : la grille est composŽe de 6 lignes et 7 colonnes. Elle est 
+% implŽmentŽe comme une liste de 7 listes de 6 ŽlŽments chacune. Ë noter 
+% que dans une colonne les cases sont inversŽes par rapport ˆ la 
+% reprŽsentation logique : la case Ç du bas È est la premire de la liste. 
 
-% Initialise la grille de jeu.
-% Au dŽpart, il s'agit 7 listes de 6 variables libres quelconques.
-% Avant d'appeler initialiser, lancer dans l'interprŽteur : dynamic grille/1.
+% Appel : initialiserGrille.
+% 
+% Initialise la grille de jeu comme 7 listes contenant 6 ŽlŽments positionnŽs 
+% ˆ Ç vide È. La clause grille doit avoir ŽtŽ dŽfinie comme dynamique auparavant. 
 initialiserGrille :- 
     retractall(grille(_)),
     assert(grille([[vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide]])).
 
-% Appel : extraireLigne(+Grille, +NumeroLigne, -Ligne).
-% Extrait la ligne NumeroLigne de Grille et stocke le rŽsulat dans Ligne.
-extraireLigne(Grille, NumeroLigne, Resultat) :- between(1, 6, NumeroLigne), extraireLigne(Grille, NumeroLigne, 1, Resultat).
+% Appel : extraireLigne(+Grille, ?NumeroLigne, ?Ligne).
+%
+% Extrait la ligne NumeroLigne de Grille et unifie le rŽsulat dans Ligne.
+% Peut aussi gŽnŽrer la liste des lignes et leur numŽro. Voir extraireLigne/4. 
+extraireLigne(Grille, NumeroLigne, Ligne) :-
+    between(1, 6, NumeroLigne),
+    extraireLigne(Grille, NumeroLigne, 1, Ligne).
+
+% Appel : extraireLigne(+Grille, ?NumeroLigne, +Nombre, ?Ligne).
+%
+% Extrait la ligne NumeroLigne de Grille et unifie le rŽsultat dans Ligne. Nombre 
+% retient la ligne en cours de parcours. Ne fonctionne qu'avec des grilles de 7
+% colonnes.
 extraireLigne(_, NumeroLigne, _, _) :- not(between(1, 6, NumeroLigne)), fail.
 extraireLigne([[X1|_], [X2|_], [X3|_], [X4|_], [X5|_], [X6|_], [X7|_]], NumeroLigne, NumeroLigne, [X1, X2, X3, X4, X5, X6, X7]).
 extraireLigne([[_|L1], [_|L2], [_|L3], [_|L4], [_|L5], [_|L6], [_|L7]], NumeroLigne, Nombre, [X1, X2, X3, X4, X5, X6, X7]) :- 
@@ -17,9 +31,18 @@ extraireLigne([[_|L1], [_|L2], [_|L3], [_|L4], [_|L5], [_|L6], [_|L7]], NumeroLi
     NouveauNombre is Nombre + 1,
     extraireLigne([L1, L2, L3, L4, L5, L6, L7], NumeroLigne, NouveauNombre, [X1, X2, X3, X4, X5, X6, X7]).
 
-% Appel : extraireColonne(+Grille, +NumeroColonne, -Colonne).
-% Extrait la colonne NumeroColonne de Grille et stocke le rŽsulat dans Colonne.
-extraireColonne(Grille, NumeroColonne, Colonne) :- between(1, 7, NumeroColonne), extraireColonne(Grille, NumeroColonne, 1, Colonne).
+% Appel : extraireColonne(+Grille, ?NumeroColonne, ?Colonne).
+%
+% Extrait la colonne NumeroColonne de Grille et unifie le rŽsulat dans Colonne.
+% Peut aussi gŽnŽrer la liste des colonnes et leur numŽro. Voir extraireLigne/4.
+extraireColonne(Grille, NumeroColonne, Colonne) :-
+    between(1, 7, NumeroColonne),
+    extraireColonne(Grille, NumeroColonne, 1, Colonne).
+
+% Appel : extraireColonne(+Grille, ?NumeroColonne, Nombre, ?Colonne).
+%
+% Extrait la colonne NumeroColonne de Grille et unifie le rŽsulat dans Colonne.
+% Nombre retient la colonne en cours de parcours.
 extraireColonne(_, NumeroColonne, _, _) :- not(between(1, 7, NumeroColonne)), fail.
 extraireColonne([Colonne|_], NumeroColonne, Nombre, Colonne) :- NumeroColonne = Nombre.
 extraireColonne([_|L], NumeroColonne, Nombre, Colonne) :- 
@@ -41,6 +64,6 @@ extraireElementCol(_,NumeroElement,_) :- NumeroElement = 0, fail.
 extraireElementCol(_,NumeroElement,_) :- NumeroElement > 6, fail.
 extraireElementCol([Element|_], NumeroElement, Compt, Element) :- NumeroElement = Compt.
 extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
-	not(NumeroElement = Compt),
-	NewCompt is Compt+1,
-	extraireElementCol(Tail,NumeroElement, NewCompt, Element).
+    not(NumeroElement = Compt),
+    NewCompt is Compt+1,
+    extraireElementCol(Tail,NumeroElement, NewCompt, Element).
