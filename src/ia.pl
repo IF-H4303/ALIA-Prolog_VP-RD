@@ -15,10 +15,14 @@ adversaire(x, o).
 % Si +Val2 vaut -10000 on n'a actuellement aucun candidat au meilleur coup (premire 
 % itŽration) et on prend donc forcŽment le candidat proposŽ.  
 meilleurCoup(_, Val1, -10000, Coup1, _, Val1, Coup1).
-meilleurCoup(x, Val1, Val2, Coup1, _, Val1, Coup1) :- Val1 > Val2.
-meilleurCoup(x, Val1, Val2, _, Coup2, Val2, Coup2) :- Val1 < Val2 + 1.
-meilleurCoup(o, Val1, Val2, Coup1, _, Val1, Coup1) :- Val1 < Val2.
-meilleurCoup(o, Val1, Val2, _, Coup2, Val2, Coup2) :- Val1 > Val2 - 1.
+%meilleurCoup(x, Val1, Val2, Coup1, _, Val1, Coup1) :- Val1 > Val2.
+%meilleurCoup(x, Val1, Val2, _, Coup2, Val2, Coup2) :- Val1 < Val2 + 1.
+%meilleurCoup(o, Val1, Val2, Coup1, _, Val1, Coup1) :- Val1 < Val2.
+%meilleurCoup(o, Val1, Val2, _, Coup2, Val2, Coup2) :- Val1 > Val2 - 1.
+meilleurCoup(o, Val1, Val2, Coup1, _, Val1, Coup1) :- Val1 > Val2.
+meilleurCoup(o, Val1, Val2, _, Coup2, Val2, Coup2) :- Val1 < Val2 + 1.
+meilleurCoup(x, Val1, Val2, Coup1, _, Val1, Coup1) :- Val1 < Val2.
+meilleurCoup(x, Val1, Val2, _, Coup2, Val2, Coup2) :- Val1 > Val2 - 1.
 
 % Appel : minimax(+Grille, +Profondeur, -Coup).
 %
