@@ -69,12 +69,12 @@ extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
     extraireElementCol(Tail,NumeroElement, NewCompt, Element).
 	
 %Definition des diagonals
-%NE :  *  NO : *
-%     /         \
-%    /           \
+%NE(1):  *   NO(2): *
+%     /              \
+%    /                \
 %
 %Diagonal de 1 a  6 en sens NE
-%Diagonal de 7 a 12 en sens NO
+%Diagonal de 7 a 12 en sens 
 %     __ __ __ __ __ __ __
 %    |__|__|__|__|__|__|__|
 %    |__|__|__|__|__|__|__|
@@ -90,68 +90,56 @@ extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
 %En fonction de la diagonale, appel la fonction correspondante
 %pour extraire la diagonale dans le bon sens.
 extraireDiag(Grille,NumDiag,Diag) :- 
-	between(1,6,NumDiag),
-	not(between(7,12,NumDiag)),
-	NumDiag < 6,
-	extraireDiagNE(Grille,NumDiag,[],Diag).
-extraireDiag(Grille,NumDiag,Diag) :- 
-	between(7,12,NumDiag),
-	not(between(1,6,NumDiag)),
-	extraireDiagNO(Grille,NumDiag,[],Diag).
-
-%Appel : extraireDiagNE(+Grille,+NumDiag,+Temp,-Diag)
-%Transforme cette appel par un nouvel appel vers extraireDiagNE/5
-%afin de lui donner le point de départ de la diagonal
-extraireDiagNE(Grille, 1, Temp, Diag) :-
-	extraireDiagNE(Grille,1,3,Temp,Diag). 
-extraireDiagNE(Grille, 2, Temp, Diag) :-
-	extraireDiagNE(Grille,1,2,Temp,Diag). 
-extraireDiagNE(Grille, 3, Temp, Diag) :-
-	extraireDiagNE(Grille,1,1,Temp,Diag). 
-extraireDiagNE(Grille, 4, Temp, Diag) :-
-	extraireDiagNE(Grille,2,1,Temp,Diag). 
-extraireDiagNE(Grille, 5, Temp, Diag) :-
-	extraireDiagNE(Grille,3,1,Temp,Diag). 
-extraireDiagNE(Grille, 6, Temp, Diag) :-
-	extraireDiagNE(Grille,4,1,Temp,Diag).
-%Appel extraireDiagNE(+Grille, +CoordCol, +CoordLig, +Temp,+Diag).
+	between(1,12,NumDiag),
+	extraireDiag(Grille,NumDiag,[],Diag).
+%En fonction de la diagonal demandee, appel la fonction extraireDiag/5
+%avec les premières coordonnees de la diagonale.
+extraireDiag(Grille, 1, Temp, Diag) :-
+	extraireDiag(Grille,1,3,Temp,Diag,1). 
+extraireDiag(Grille, 2, Temp, Diag) :-
+	extraireDiag(Grille,1,2,Temp,Diag,1). 
+extraireDiag(Grille, 3, Temp, Diag) :-
+	extraireDiag(Grille,1,1,Temp,Diag,1). 
+extraireDiag(Grille, 4, Temp, Diag) :-
+	extraireDiag(Grille,2,1,Temp,Diag,1). 
+extraireDiag(Grille, 5, Temp, Diag) :-
+	extraireDiag(Grille,3,1,Temp,Diag,1). 
+extraireDiag(Grille, 6, Temp, Diag) :-
+	extraireDiag(Grille,4,1,Temp,Diag,1).
+extraireDiag(Grille, 7, Temp, Diag) :-
+	extraireDiag(Grille,7,3,Temp,Diag,2). 
+extraireDiag(Grille, 8, Temp, Diag) :-
+	extraireDiag(Grille,7,2,Temp,Diag,2). 
+extraireDiag(Grille, 9, Temp, Diag) :-
+	extraireDiag(Grille,7,1,Temp,Diag,2). 
+extraireDiag(Grille,10, Temp, Diag) :-
+	extraireDiag(Grille,6,1,Temp,Diag,2). 
+extraireDiag(Grille,11, Temp, Diag) :-
+	extraireDiag(Grille,5,1,Temp,Diag,2). 
+extraireDiag(Grille,12, Temp, Diag) :-
+	extraireDiag(Grille,4,1,Temp,Diag,2).
+%Appel extraireDiag(+Grille, +CoordCol, +CoordLig, +Temp,+Diag).
 %Si les coordonees sont dans la grilles, alors extraction de l'element
 %puis recherche de l'element suivant de la diagonal et stockage dans Temp.
-extraireDiagNE(Grille,CoordCol,CoordLig,Temp, Diag) :-
+extraireDiag(Grille,CoordCol,CoordLig,Temp, Diag,Sens) :-
 	between(1,7,CoordCol),
 	between(1,6,CoordLig),
 	extraireElement(Grille,CoordCol, CoordLig, Element),
 	append(Temp,[Element],NewDiag),
-	NewCoordCol is CoordCol+1,
+	calcNewCoord(CoordCol,Sens,NewCoordCol),
 	NewCoordLig is CoordLig+1,
-	extraireDiagNE(Grille, NewCoordCol, NewCoordLig, NewDiag, Diag).
+	extraireDiag(Grille, NewCoordCol, NewCoordLig, NewDiag, Diag,Sens).
 %Si les coordonnees ne sont pas dans la grille, alors retour de diag.
-extraireDiagNE(_, CoordCol,_,Diag, Diag) :-
+extraireDiag(_, CoordCol,_,Diag, Diag,_) :-
 	not(between(1,7,CoordCol)).
-extraireDiagNE(_, _, CoordLig, Diag, Diag) :-
+extraireDiag(_, _, CoordLig, Diag, Diag,_) :-
 	not(between(1,6,CoordLig)).
 
-extraireDiagNO(Grille, 7, Temp, Diag) :-
-	extraireDiagNO(Grille,7,3,Temp,Diag). 
-extraireDiagNO(Grille, 8, Temp, Diag) :-
-	extraireDiagNO(Grille,7,2,Temp,Diag). 
-extraireDiagNO(Grille, 9, Temp, Diag) :-
-	extraireDiagNO(Grille,7,1,Temp,Diag). 
-extraireDiagNO(Grille,10, Temp, Diag) :-
-	extraireDiagNO(Grille,6,1,Temp,Diag). 
-extraireDiagNO(Grille,11, Temp, Diag) :-
-	extraireDiagNO(Grille,5,1,Temp,Diag). 
-extraireDiagNO(Grille,12, Temp, Diag) :-
-	extraireDiagNO(Grille,4,1,Temp,Diag).
-extraireDiagNO(Grille,CoordCol,CoordLig,Temp, Diag) :-
-	between(1,7,CoordCol),
-	between(1,6,CoordLig),
-	extraireElement(Grille,CoordCol, CoordLig, Element),
-	append(Temp,[Element],NewDiag),
-	NewCoordCol is CoordCol-1,
-	NewCoordLig is CoordLig+1,
-	extraireDiagNO(Grille, NewCoordCol, NewCoordLig, NewDiag,Diag).
-extraireDiagNO(_,CoordCol,_,Diag,Diag) :-
-	not(between(1,7,CoordCol)).
-extraireDiagNO(_,_,CoordLig,Diag,Diag) :-
-	not(between(1,6,CoordLig)).
+%Calcul les nouvelles coordonee de la colonne en fonction du sens donne :
+%1 = NE, donc NewCoordCol = CoordCol+1
+%2 = N0, donc NewCoordCol = CoordCol-1
+calcNewCoord(CoordCol,1,NewCoordCol) :-
+	NewCoordCol is CoordCol+1.
+calcNewCoord(CoordCol,2,NewCoordCol) :-
+	NewCoordCol is CoordCol-1.
+	
