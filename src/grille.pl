@@ -3,7 +3,7 @@
 % Initialise la grille de jeu.
 % Au départ, il s'agit 7 listes de 6 variables libres quelconques.
 % Avant d'appeler initialiser, lancer dans l'interpréteur : dynamic grille/1.
-initialiser :- 
+initialiserGrille :- 
     retractall(grille(_)),
     assert(grille([[vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide]])).
 

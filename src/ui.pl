@@ -14,3 +14,7 @@ afficherLigne([]) :- nl.
 afficherSymbole(vide) :- write('-').
 afficherSymbole(o) :- write('o').
 afficherSymbole(x) :- write('x').
+
+% .
+j(NumeroColonne) :- jouer(o, NumeroColonne), afficherGrille, !.
+o :- grille(G), minmax(G, 2, Coup), jouer(x, Coup), afficherGrille, !.

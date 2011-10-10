@@ -1,4 +1,8 @@
-% Appel : coup(+Joueur, +Grille, +NumeroColonne, -NouvelleGrille)
+% Définition : un coup est représenté par un numéro de colonne.
+% Le pion va automatiquement s'ajouter dans la première place disponible.
+
+% Appel : coup(+Joueur, +Grille, +NumeroColonne, -NouvelleGrille).
+%
 % Joue le coup du Joueur sur la Grille dans la colonne NumeroColonne 
 % et place le résultat dans NouvelleGrille. 
 coup(Joueur, Grille, NumeroColonne, NouvelleGrille) :- copierGrille(Joueur, Grille, 1, NumeroColonne, NouvelleGrille).
@@ -33,6 +37,7 @@ coup([]) :- fail.
 % Appel : jouer(+Joueur, +NumeroColonne).
 % Joue le coup du Joueur sur la grille dans la colonne NumeroColonne.
 jouer(Joueur, NumeroColonne) :- 
+    between(1, 7, NumeroColonne),
     retract(grille(Grille)), 
     coup(Joueur, Grille, NumeroColonne, NouvelleGrille), 
     assert(grille(NouvelleGrille)).
