@@ -52,4 +52,4 @@ jouer(Joueur, NumeroColonne) :-
     between(1, 7, NumeroColonne),
     retract(grille(Grille)), 
     coup(Joueur, Grille, NumeroColonne, NouvelleGrille), 
-    assert(grille(NouvelleGrille)).
+    assert(grille(NouvelleGrille)), !.

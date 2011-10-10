@@ -10,7 +10,8 @@ score(Joueur, Grille, Score) :-
     initialiserOrphelins,
     scoreLignes(Joueur, Grille, ScoreLignes),
     scoreColonnes(Joueur, Grille, ScoreColonnes),
-    Score is ScoreLignes + ScoreColonnes, !.
+    scoreDiagonales(Joueur, Grille, ScoreDiags),
+    Score is ScoreLignes + ScoreColonnes + ScoreDiags, !.
 
 scoreLignes(Joueur, Grille, Score) :-
     findall(Ligne, extraireLigne(Grille, _, Ligne), Lignes),
@@ -19,6 +20,10 @@ scoreLignes(Joueur, Grille, Score) :-
 scoreColonnes(Joueur, Grille, Score) :-
     findall(Colonne, extraireColonne(Grille, _, Colonne), Colonnes),
     scoreAlignement(Joueur, Colonnes, 0, Score).
+
+scoreDiagonales(Joueur, Grille, Score) :-
+    findall(Diag, extraireDiag(Grille, _, Diag), Diags),
+    scoreAlignement(Joueur, Diags, 0, Score).
 
 scoreAlignement(Joueur, [X|L], ScoreCourant, Score) :-
     scoreAlignement(Joueur, X, ScoreAlignement),

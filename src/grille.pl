@@ -6,7 +6,7 @@
 % Appel : initialiserGrille.
 % 
 % Initialise la grille de jeu comme 7 listes contenant 6 éléments positionnés 
-% é « vide ». La clause grille doit avoir été définie comme dynamique auparavant. 
+% à « vide ». La clause grille doit avoir été définie comme dynamique auparavant. 
 initialiserGrille :- 
     retractall(grille(_)),
     assert(grille([[vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide]])).
