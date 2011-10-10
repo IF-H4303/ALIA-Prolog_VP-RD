@@ -50,17 +50,17 @@ alignement(_, _, [], MaxCourant, MaxCourant) :- MaxCourant > -1, !.
 
 
 % Appel : victoireJoueurColonne(+Joueur, +Colonne).
-% Une preuve existe si une suite de 4 symboles consécutifs de Joueur 
-% est trouvée dans Colonne.
+% Une preuve existe si une suite de 4 symboles cons√©cutifs de Joueur 
+% est trouv√©e dans Colonne.
 victoireJoueurColonne(Joueur, Colonne) :- alignement(Joueur, Colonne, Max), Max > 3.
 
 % Appel : victoireJoueurLigne(+Joueur, +Ligne).
-% Une preuve existe si une suite de 4 symboles consécutifs de Joueur 
-% est trouvée dans Ligne.
+% Une preuve existe si une suite de 4 symboles cons√©cutifs de Joueur 
+% est trouv√©e dans Ligne.
 victoireJoueurLigne(Joueur, Ligne) :- alignement(Joueur, Ligne, Max), Max > 3.
 
 % Appel : victoireJoueur(+Joueur, +Grille).
-% Une preuve existe si le joueur Joueur a gagné sur Grille.
+% Une preuve existe si le joueur Joueur a gagn√© sur Grille.
 victoireJoueur(Joueur, Grille) :- extraireColonne(Grille, 1, Colonne), victoireJoueurColonne(Joueur, Colonne).
 victoireJoueur(Joueur, Grille) :- extraireColonne(Grille, 2, Colonne), victoireJoueurColonne(Joueur, Colonne).
 victoireJoueur(Joueur, Grille) :- extraireColonne(Grille, 3, Colonne), victoireJoueurColonne(Joueur, Colonne).
@@ -76,9 +76,9 @@ victoireJoueur(Joueur, Grille) :- extraireLigne(Grille, 5, Ligne), victoireJoueu
 victoireJoueur(Joueur, Grille) :- extraireLigne(Grille, 6, Ligne), victoireJoueurLigne(Joueur, Ligne).
 
 % Appel : victoire(+Grille).
-% Une preuve existe si un des deux joueurs (x ou o) a gagné.
-victoire(Grille) :- victoire(x, Grille).
-victoire(Grille) :- victoire(o, Grille).
+% Une preuve existe si un des deux joueurs (x ou o) a gagn√©.
+victoire(Grille) :- victoireJoueur(x, Grille).
+victoire(Grille) :- victoireJoueur(o, Grille).
 
 estOrphelin(Orphelin) :- orphelins(Orphelins), member(Orphelin, Orphelins). 
 

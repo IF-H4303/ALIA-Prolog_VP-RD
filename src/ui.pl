@@ -4,18 +4,18 @@
 afficherGrille :-
     grille(Grille),
     findall(Ligne, extraireLigne(Grille, _, Ligne), Lignes),
-    reverse(Lignes, LignesInversees), % Les cases du bas sont en tête de tableau.
+    reverse(Lignes, LignesInversees), % Les cases du bas sont en t√™te de tableau.
     afficherLignes(LignesInversees).
 
 % Appel : afficherLignes(+Lignes).
 %
-% Affiche un ensemble de Lignes. Chaque ligne débute par quatre espaces.
+% Affiche un ensemble de Lignes. Chaque ligne d√©bute par quatre espaces.
 afficherLignes([L|R]) :- write('    '), afficherLigne(L), afficherLignes(R).
 afficherLignes([]).
 
 % Appel : afficherLigne(+Ligne).
 %
-% Affiche une ligne complète. Deux symbole sont séparés par un espace.
+% Affiche une ligne compl√®te. Deux symbole sont s√©par√©s par un espace.
 afficherLigne([L|R]) :- afficherSymbole(L), write(' '), afficherLigne(R).
 afficherLigne([]) :- nl.
 
@@ -28,12 +28,20 @@ afficherSymbole(x) :- write('x').
 
 % Appel : j(+NumeroColonne).
 %
-% Joue dans la colonne NumeroColonne (pour le joueur jouant les « o ») 
+% Joue dans la colonne NumeroColonne (pour le joueur jouant les ¬´ o ¬ª) 
 % et affiche ensuite la nouvelle grille.
-j(NumeroColonne) :- jouer(o, NumeroColonne), afficherGrille, !.
+j(NumeroColonne) :- jouer(o, NumeroColonne), afficherGrille, afficherVictoire(o), !.
 
 % Appel : o.
 %
-% Calcule le meilleur coup pour le joueur jouant le « x », le joue 
+% Calcule le meilleur coup pour le joueur jouant les ¬´ x ¬ª, le joue 
 % et affiche ensuite la nouvelle grille.
-o :- grille(G), minimax(G, 2, Coup), jouer(x, Coup), afficherGrille, !.
+o :- grille(Grille), minimax(Grille, 2, Coup), jouer(x, Coup), afficherGrille, afficherVictoire(x), !.
+
+% Appel : afficherVictoire.
+%
+% Affiche une victoire ou une d√©faite si un des deux joueurs a gagn√©.
+afficherVictoire(o) :- grille(Grille), victoire(Grille), write('Vous avez gagn√© !'), nl, !.
+afficherVictoire(x) :- grille(Grille), victoire(Grille), write('Vous avez perdu !'), nl, !.
+afficherVictoire(o).
+afficherVictoire(x).
