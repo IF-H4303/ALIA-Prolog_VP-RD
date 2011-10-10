@@ -33,7 +33,7 @@ extraireColonne([_|L], NumeroColonne, Nombre, Colonne) :-
 
 % Appel : extraireElement(+Grille, +CoordCol, +CoordLig, -Colonne).
 % Extrait l'element de coordonnée (CoordCol,CoordLig) et place le reŽsulat dans Colonne.
-    extraireElement(Grille, CoordCol, CoordLig, Element) :- 
+extraireElement(Grille, CoordCol, CoordLig, Element) :- 
 	extraireColonne(Grille, CoordCol, Colonne),
 	extraireElementCol(Colonne, CoordLig, Element).
 
