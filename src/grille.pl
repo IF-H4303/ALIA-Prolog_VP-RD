@@ -5,26 +5,22 @@
 % Avant d'appeler initialiser, lancer dans l'interpréteur : dynamic grille/1.
 initialiser :- 
     retractall(grille(_)),
-    assert(grille([[_, _, _, _, _, _], [_, _, _, _, _, _], [_, _, _, _, _, _], [_, _, _, _, _, _], [_, _, _, _, _, _], [_, _, _, _, _, _], [_, _, _, _, _, _]])).
+    assert(grille([[vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide], [vide, vide, vide, vide, vide, vide]])).
 
 % Appel : extraireLigne(+Grille, +NumeroLigne, -Ligne).
 % Extrait la ligne NumeroLigne de Grille et stocke le résulat dans Ligne.
-extraireLigne(Grille, NumeroLigne, Resultat) :- extraireLigne(Grille, NumeroLigne, 1, Resultat).
-extraireLigne(_, NumeroLigne, _) :- NumeroLigne < 0, fail.
-extraireLigne(_, NumeroLigne, _) :- NumeroLigne = 0, fail.
-extraireLigne(_, NumeroLigne, _) :- NumeroLigne > 6, fail.
-extraireLigne([[X1|_], [X2|_], [X3|_], [X4|_], [X5|_], [X6|_]], NumeroLigne, Nombre, [X1, X2, X3, X4, X5, X6]) :- NumeroLigne = Nombre.
-extraireLigne([[_|L1], [_|L2], [_|L3], [_|L4], [_|L5], [_|L6]], NumeroLigne, Nombre, [X1, X2, X3, X4, X5, X6]) :- 
+extraireLigne(Grille, NumeroLigne, Resultat) :- between(1, 6, NumeroLigne), extraireLigne(Grille, NumeroLigne, 1, Resultat).
+extraireLigne(_, NumeroLigne, _, _) :- not(between(1, 6, NumeroLigne)), fail.
+extraireLigne([[X1|_], [X2|_], [X3|_], [X4|_], [X5|_], [X6|_], [X7|_]], NumeroLigne, NumeroLigne, [X1, X2, X3, X4, X5, X6, X7]).
+extraireLigne([[_|L1], [_|L2], [_|L3], [_|L4], [_|L5], [_|L6], [_|L7]], NumeroLigne, Nombre, [X1, X2, X3, X4, X5, X6, X7]) :- 
     not(NumeroLigne = Nombre),
     NouveauNombre is Nombre + 1,
-    extraireLigne([L1, L2, L3, L4, L5, L6], NumeroLigne, NouveauNombre, [X1, X2, X3, X4, X5, X6]).
+    extraireLigne([L1, L2, L3, L4, L5, L6, L7], NumeroLigne, NouveauNombre, [X1, X2, X3, X4, X5, X6, X7]).
 
 % Appel : extraireColonne(+Grille, +NumeroColonne, -Colonne).
 % Extrait la colonne NumeroColonne de Grille et stocke le résulat dans Colonne.
-extraireColonne(Grille, NumeroColonne, Colonne) :- extraireColonne(Grille, NumeroColonne, 1, Colonne).
-extraireColonne(_, NumeroColonne, _) :- NumeroColonne < 0, fail.
-extraireColonne(_, NumeroColonne, _) :- NumeroColonne = 0, fail.
-extraireColonne(_, NumeroColonne, _) :- NumeroColonne > 7, fail.
+extraireColonne(Grille, NumeroColonne, Colonne) :- between(1, 7, NumeroColonne), extraireColonne(Grille, NumeroColonne, 1, Colonne).
+extraireColonne(_, NumeroColonne, _, _) :- not(between(1, 7, NumeroColonne)), fail.
 extraireColonne([Colonne|_], NumeroColonne, Nombre, Colonne) :- NumeroColonne = Nombre.
 extraireColonne([_|L], NumeroColonne, Nombre, Colonne) :- 
     not(NumeroColonne = Nombre),
@@ -34,8 +30,8 @@ extraireColonne([_|L], NumeroColonne, Nombre, Colonne) :-
 % Appel : extraireElement(+Grille, +CoordCol, +CoordLig, -Colonne).
 % Extrait l'element de coordonnÈe (CoordCol,CoordLig) et place le reésulat dans Colonne.
 extraireElement(Grille, CoordCol, CoordLig, Element) :- 
-	extraireColonne(Grille, CoordCol, Colonne),
-	extraireElementCol(Colonne, CoordLig, Element).
+extraireColonne(Grille, CoordCol, Colonne),
+extraireElementCol(Colonne, CoordLig, Element).
 
 %Appel : extraireElementCol(+Colonne, +NumeroElement, -Element).
 %Extrait l'element numero NumeroElement dans la liste Colonne et place le resultat dans Element.
@@ -48,4 +44,3 @@ extraireElementCol([_|Tail], NumeroElement, Compt, Element) :-
 	not(NumeroElement = Compt),
 	NewCompt is Compt+1,
 	extraireElementCol(Tail,NumeroElement, NewCompt, Element).
-	
