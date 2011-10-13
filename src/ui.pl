@@ -1,3 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              Projet Prolog - 4IF               %
+%                                                %
+% Ce fichier contient toutes les fonctions liées %
+% à l'interface du jeu, au sens large.           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Appel : afficherGrille.
 %
 % Affiche la grille dans la console avec des x, o et tirets pour les cases vides.
@@ -35,7 +42,8 @@ j(NumeroColonne) :- jouer(o, NumeroColonne), afficherGrille, afficherVictoire(o)
 % Appel : o.
 %
 % Calcule le meilleur coup pour le joueur jouant les « x », le joue 
-% et affiche ensuite la nouvelle grille.
+% et affiche ensuite la nouvelle grille. La profondeur de recherche 
+% dans l'arbre des coups est fixée à 2.
 o :- grille(Grille), minimax(Grille, 2, Coup), jouer(x, Coup), afficherGrille, afficherVictoire(x), !.
 
 % Appel : afficherVictoire.

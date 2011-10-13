@@ -1,3 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              Projet Prolog - 4IF               %
+%                                                %
+% Ce fichier contient toutes les fonctions liées %
+% au jeu à proprement parler.                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Définition : un coup est représenté par un numéro de colonne.
 % Le pion va automatiquement s'ajouter dans la première place disponible.
 

@@ -1,3 +1,11 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Projet Prolog - 4IF                %
+%                                                  %
+% Ce fichier contient toutes les fonctions liées   %
+% à l'intelligence artificielle du jeu, consistant %
+% principalement en un algorithme minimax.         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Appel : adversaire(+Joueur, -Adversaire).
 %
 % Permet d'effectuer le changement de joueur. L'adversaire de Joueur est 
